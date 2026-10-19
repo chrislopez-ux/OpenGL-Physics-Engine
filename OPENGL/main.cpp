@@ -26,6 +26,7 @@ int main()
     //core profile for modern compatibility
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    //triangle vertices
     GLfloat vertices[] = {
         -0.5, -0.5, 0,
         0.5, -0.5, 0,
@@ -48,6 +49,26 @@ int main()
 
     //creates the window from x = 0 and y = 0, to x = 800 and y = 800
     glViewport(0, 0, 800, 800);
+
+    //creating the vertex and fragment shader
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glCompileShader(vertexShader);
+
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glCompileShader(fragmentShader);
+
+    GLuint shaderProgram = glCreateProgram();
+
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
+
+    //delete the shaders since we already used it
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragmentShader);
+
 
     //color of the buffer
     glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
